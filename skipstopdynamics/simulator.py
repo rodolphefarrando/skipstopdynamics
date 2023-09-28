@@ -1,7 +1,7 @@
 import random
 import numpy as np
-from .trajectories import plottrajectories
-from .initial_positions import initial_position
+from skipstopdynamics.trajectories import plottrajectories
+from skipstopdynamics.initial_positions import initial_position
 
 MINUS_INF = -1e8
 LIM_H = 400
@@ -75,17 +75,19 @@ class Simulator(object):
         """
         return the case l for the first model
         """
-        beg = self.i0 if j <= self.n / 2 else self.i1
+        beg = self.i0 #if j <= self.n / 2 else self.i1
         if j in self.I:
+            if j in self.I[:3]:
+                a = 1
             if k % 2 == 0:
-                l = 1 if sum(self.b[beg+1:j + 1]) % 2 == 0 else 0
+                l = 1 if sum(self.b[beg:j]) % 2 == 0 else 0
             else:
-                l = 0 if sum(self.b[beg+1:j + 1]) % 2 == 0 else 1
-        elif j - 1 in self.I:
-            if k % 2 == 0:
-                l = 1 if sum(self.b[beg+1:j]) % 2 == 0 else 0
-            else:
-                l = 0 if sum(self.b[beg+1:j]) % 2 == 0 else 1
+                l = 0 if sum(self.b[beg:j]) % 2 == 0 else 1
+        # elif j - 1 in self.I:
+        #     if k % 2 == 0:
+        #         l = 1 if sum(self.b[beg+1:j]) % 2 == 0 else 0
+        #     else:
+        #         l = 0 if sum(self.b[beg+1:j]) % 2 == 0 else 1
         else:
             l = 0
 
@@ -136,6 +138,8 @@ class Simulator(object):
                     # In python when you put a minus before the index, the counting will start at the end of the array;
                     # when j=0 D[j-1, k] = D[-1, k] will select the last row of kth column of D
                     # This is why there is no particular case for j=0;
+                    if l == 1:
+                        a = 1
                     t1[j] = D[j - 1, k - self.b[j - 1]] + self.t[j - 1, l]
                     if j != self.n - 1:
                         t2[j] = D[j + 1, k - self.bbar[j]] + self.s[j + 1, l]

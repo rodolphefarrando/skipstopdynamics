@@ -96,13 +96,17 @@ def plottrajectories(D, A, b, m, dist_station, model):
         if col >= len(color):
             col = 0
 
-    plt.yticks([0, 1000, 1800, 2800, 3700, 4400, 5099, 5750, 6400, 6900, 7550, 8300, 8800, 9200,
-                9800, 10340, 10990, 11690, 12790, 13990, 14840, 16339, 16990, 17640, 18590],
-               [r'\bf{Def.}', '\it{E. Def}', '\it{Neuilly}', '\it{Sablons}', r'\bf{Maillot}',
-                '\it{Arg.}', r'\bf{CDG}', '\it{Geo. V}', r'\bf{Roos.}', r'\bf{CE}', r'\bf{Conc.}',
-                '\it{Tuil.}', r'\bf{PR}', '\it{Louvre}', r'\bf{Chat.}', r'\bf{HdV}', '\it{SP}',
-                r'\bf{Bast.}', r'\bf{GdL}', r'\bf{RD}', r'\bf{Nation}', r'\bf{PdV}', '\it{SM}',
-                '\it{Ber}', r'\bf{CDV}'])
+
+    # yticksdist = np.array([0, 1000, 1800, 2800, 3700, 4400, 5099, 5750, 6400, 6900, 7550, 8300,
+    #                        8800, 9200, 9800, 10340, 10990, 11690, 12790, 13990, 14840, 16339, 16990,
+    #                        17640, 18590]) + 600
+    #
+    # plt.yticks(yticksdist,
+    #            [r'\bf{Def.}', '\it{E. Def}', '\it{Neuilly}', '\it{Sablons}', r'\bf{Maillot}',
+    #             '\it{Arg.}', r'\bf{CDG}', '\it{Geo. V}', r'\bf{Roos.}', r'\bf{CE}', r'\bf{Conc.}',
+    #             '\it{Tuil.}', r'\bf{PR}', '\it{Louvre}', r'\bf{Chat.}', r'\bf{HdV}', '\it{SP}',
+    #             r'\bf{Bast.}', r'\bf{GdL}', r'\bf{RD}', r'\bf{Nation}', r'\bf{PdV}', '\it{SM}',
+    #             '\it{Ber}', r'\bf{CDV}'])
 
     # plt.xticks([55060 + 600 * i for i in range(7)], [0, 10, 20, 30, 40, 50, 60])
     # plt.xticks([57000 + 600 * i for i in range(7)], [0, 10, 20, 30, 40, 50, 60])
@@ -111,7 +115,7 @@ def plottrajectories(D, A, b, m, dist_station, model):
     plt.xlabel('Time in minutes', fontsize=24)
     plt.ylabel('', fontsize=24)
     plt.legend(loc='upper left', fontsize=18)
-    # plt.ylim([0, 10340])
+    #plt.ylim([0, 10340])
     # plt.xlim([54960, 58760])
     # plt.xlim([56900, 60700])
     plt.grid()

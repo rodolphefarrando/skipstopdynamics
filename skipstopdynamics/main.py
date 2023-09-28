@@ -1,7 +1,7 @@
 import time
 import matplotlib.pyplot as plt
-from .data import data
-from .simulator import Simulator
+from skipstopdynamics.data import data
+from skipstopdynamics.simulator import Simulator
 
 
 def main():
@@ -10,11 +10,12 @@ def main():
     # - first for the one where trains stop at all stations;
     # - second for the second model relaxing the OD constraint
     model = 'first' # or second
-    name = 'unrestricted'
+    name = 'unrestricted' if model == 'second' else 'restricted'
 
     # get the data from the file 'data/line1.csv'
     t1, t2, s1, s2, r1, r2, dist_stat, stations, skip_stations = data()
     n = len(t1)
+    print('Number of segments on the line:', n, ', Model', name)
 
     # Variable initialization
     headway1, headway2 = [], []
@@ -25,14 +26,16 @@ def main():
     m = range(start, end, step)
     for m_ in m:
         # simulation1 is the simulation with no skip stop policy
-        simulation1 = Simulator(m=m_, n=n, s=s1, t=t1, r=r1, model=model, horizon=min(m_*20, 600), dist_stat=dist_stat,
+        simulation1 = Simulator(m=m_, n=n, s=s1, t=t1, r=r1, model=model,
+                                horizon=min(m_*20, 400, (n-m_)*20), dist_stat=dist_stat,
                                 I=skip_stations, style='linear')
         h1, f1 = simulation1.simulation()
         headway1.append(h1)
         frequency1.append(f1)
 
         # simulation2 is the simulation with the one of the two skip stop policies
-        simulation2 = Simulator(m=m_, n=n, s=s2, t=t2, r=r2, model=model, horizon=min(m_*20, 600), dist_stat=dist_stat,
+        simulation2 = Simulator(m=m_, n=n, s=s2, t=t2, r=r2, model=model,
+                                horizon=min(m_*20, 400, (n-m_)*20), dist_stat=dist_stat,
                                 I=skip_stations, style='linear')
         h2, f2 = simulation2.simulation()
         headway2.append(h2)

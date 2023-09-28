@@ -30,10 +30,11 @@ def data(path='data/line1.csv'):
         nsegm = int(l_ / len_segm)
         segments += [l_ / nsegm]*nsegm
         stations.append(count)
-        if s[j] == 1:
+        count += nsegm
+
+        if s[j] == 0:
             skip_stations.append(count)
 
-        count += nsegm
 
     v1 = np.ones((len(segments))) * V2
     v2 = np.ones((len(segments))) * V2
@@ -50,7 +51,7 @@ def data(path='data/line1.csv'):
             w1[0] = 0 #20
         else:
             w1[stat + 1] = 0 # 20
-        if stat in skip_stations:
+        if stat not in skip_stations:
             # v2[stat] = V2
             # v2[stat] = V2
             s2[stat] = 20
@@ -70,7 +71,7 @@ def data(path='data/line1.csv'):
     s2 = np.transpose(np.array([s1, s2]))
 
     dist_stat = np.append([0], np.cumsum(segments))
-    skip_stations = sorted(list(set(stations) ^ set(skip_stations)))
+    # skip_stations = sorted(list(set(stations) ^ set(skip_stations)))
 
     return t1, t2, s1, s2, r1, r2, dist_stat, stations, skip_stations
 
